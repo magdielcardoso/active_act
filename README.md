@@ -225,6 +225,39 @@ end
 ProcessPayment.call(order)
 ```
 
+## Running Actions as Jobs
+
+You can make any action run asynchronously as an ActiveJob by adding the macro:
+
+```ruby
+class UpcasePostTitle < ActiveAct::ApplicationAction
+  act_as :job
+
+  def call(post)
+    post.title = post.title.upcase
+    post.save!
+    post
+  end
+end
+```
+
+- When you call `UpcasePostTitle.call(post)`, the action is enqueued as a job and will run asynchronously.
+- The return value is an `ActionResult` with `{ enqueued: true, action: ..., args: ..., kwargs: ... }`.
+- If you do **not** declare `act_as :job`, the action runs synchronously as usual.
+
+**How it works:**
+- The macro `act_as :job` tells ActiveAct to use ActiveJob for this action.
+- Internally, a parameter `as_job: true/false` is used to prevent infinite job loops.
+- You can still use all callbacks and chaining features with job actions.
+
+**Use cases:**
+- Email delivery, notifications, integrations, or any long-running/background task.
+
+**Example:**
+```ruby
+UpcasePostTitle.call(post) # Enqueues the job
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/magdielcardoso/active_act.

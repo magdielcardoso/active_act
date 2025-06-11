@@ -224,4 +224,36 @@ result = UpcasePostTitle.call(post)
 # Finished upcasing. New title: HELLO WORLD
 
 # If an error occurs in call, notify_error will be called with the exception.
-``` 
+```
+
+---
+
+## 12. Running Actions as Jobs
+
+You can make any action run asynchronously as an ActiveJob by adding the macro:
+
+```ruby
+class UpcasePostTitle < ActiveAct::ApplicationAction
+  act_as :job
+
+  def call(post)
+    post.title = post.title.upcase
+    post.save!
+    post
+  end
+end
+
+# Usage:
+post = Post.create!(title: "hello world")
+result = UpcasePostTitle.call(post)
+# => Enqueues the job and returns an ActionResult with { enqueued: true, ... }
+```
+
+- If you do **not** declare `act_as :job`, the action runs synchronously as usual.
+- Internally, a parameter `as_job: true/false` is used to prevent infinite job loops.
+- You can use callbacks and chaining with job actions as well.
+
+**Use cases:**
+- Email delivery, notifications, integrations, or any background task.
+
+--- 
