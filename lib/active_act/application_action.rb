@@ -45,13 +45,91 @@ module ActiveAct
       def _retry_on_config
         @retry_on_config || (superclass.respond_to?(:_retry_on_config) ? superclass._retry_on_config : nil)
       end
+
+      # Auditing
+      def auditable!
+        @auditable = true
+      end
+
+      def _auditable?
+        @auditable || (superclass.respond_to?(:_auditable?) ? superclass._auditable? : false)
+      end
+
+      # Authorization
+      def require_user(role = nil)
+        @required_user_role = role
+      end
+
+      def _required_user_role
+        if defined?(@required_user_role)
+          @required_user_role
+        else
+          (superclass.respond_to?(:_required_user_role) ? superclass._required_user_role : nil)
+        end
+      end
+
+      # Param validation
+      def param(name, type:, required: false)
+        @params_schema ||= {}
+        @params_schema[name] = { type: type, required: required }
+      end
+
+      def _params_schema
+        superclass.respond_to?(:_params_schema) ? superclass._params_schema.merge(@params_schema || {}) : (@params_schema || {})
+      end
+
+      # Scheduling
+      def schedule(every:)
+        @schedule_config = { every: every }
+        # Aqui poderíamos registrar para um scheduler externo, ex: Sidekiq::Cron, etc.
+      end
+
+      def _schedule_config
+        @schedule_config || (superclass.respond_to?(:_schedule_config) ? superclass._schedule_config : nil)
+      end
     end
 
     def self.call(*args, as_job: true, **kwargs, &block)
-      if _act_as_type == :job && as_job
-        ActiveAct::ActionJob.perform_later(name, args, kwargs)
-        ActiveAct::ActionResult.new({ enqueued: true, action: name, args: args, kwargs: kwargs })
-      else
+      # --- Auditing ---
+      auditable = _auditable?
+      start_time = Time.now if auditable
+      audit_data = { action: name, args: args, kwargs: kwargs }
+      begin
+        # --- Param validation ---
+        schema = _params_schema
+        unless schema.empty?
+          schema.each do |param, opts|
+            value = begin
+              kwargs[param] || args[schema.keys.index(param)]
+            rescue StandardError
+              nil
+            end
+            raise ArgumentError, "Missing required param: #{param}" if opts[:required] && value.nil?
+            raise ArgumentError, "Param #{param} must be a #{opts[:type]}" if !value.nil? && !value.is_a?(opts[:type])
+          end
+        end
+        # --- Authorization ---
+        required_role = _required_user_role
+        if required_role
+          user = kwargs[:current_user] || args.find { |a| a.respond_to?(:role) }
+          raise "Unauthorized: user required" unless user
+          if required_role && !(user.respond_to?(:role) && user.role.to_sym == required_role.to_sym)
+            raise "Unauthorized: must be #{required_role}"
+          end
+        end
+        # --- Scheduling ---
+        if _schedule_config && as_job
+          # Enfileira como job agendado (simples, para demo; ideal: integração com cron/sidekiq)
+          ActiveAct::ActionJob.set(wait: _schedule_config[:every]).perform_later(name, args, kwargs)
+          return ActiveAct::ActionResult.new({ enqueued: true, scheduled: true, action: name, args: args,
+                                               kwargs: kwargs })
+        end
+        # --- Job ---
+        if _act_as_type == :job && as_job
+          ActiveAct::ActionJob.perform_later(name, args, kwargs)
+          return ActiveAct::ActionResult.new({ enqueued: true, action: name, args: args, kwargs: kwargs })
+        end
+        # --- Retry ---
         instance = new
         retry_config = _retry_on_config
         attempts = retry_config ? retry_config[:attempts] : 1
@@ -77,7 +155,22 @@ module ActiveAct
           end
           _on_error_callbacks.each { |cb| instance.send(cb, e) }
           instance.on_error(e) if instance.respond_to?(:on_error)
+          raise if auditable # para logar erro no audit abaixo
+
           ActiveAct::ActionResult.new(nil, error: e)
+        end
+      rescue StandardError => e
+        audit_data[:error] = e
+        raise
+      ensure
+        if auditable
+          audit_data[:duration] = Time.now - start_time
+          audit_data[:result] = if audit_data[:error]
+                                  nil
+                                else
+                                  (defined?(result) ? result : nil)
+                                end
+          Rails.logger.info("[ActiveAct::Audit] #{audit_data.inspect}")
         end
       end
     end
