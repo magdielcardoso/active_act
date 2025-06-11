@@ -16,23 +16,23 @@ And then execute:
 $ bundle install
 ```
 
-Run the install generator to set up the base structure:
+Run the install generator to set up the actions directory:
 
 ```sh
 $ rails generate active_act:install
 ```
 
-This will create the `app/actions` directory and a base `application_action.rb` file.
+This will create the `app/actions` directory. The base class `ActiveAct::ApplicationAction` is provided by the gem and does not need to be generated in your app.
 
 ## Usage
 
 ### Creating a new Action
 
-You can manually create a new action by inheriting from `ApplicationAction`:
+Create a new action by inheriting from `ActiveAct::ApplicationAction`:
 
 ```ruby
 # app/actions/send_welcome_email.rb
-class SendWelcomeEmail < ApplicationAction
+class SendWelcomeEmail < ActiveAct::ApplicationAction
   def initialize(user)
     @user = user
   end
@@ -46,12 +46,6 @@ class SendWelcomeEmail < ApplicationAction
 end
 ```
 
-Or, use the (upcoming) generator:
-
-```sh
-$ rails generate active_act:action SendWelcomeEmail
-```
-
 ### Executing an Action
 
 You can call your action from anywhere in your app:
@@ -62,7 +56,7 @@ SendWelcomeEmail.call(user)
 
 ## Base Action API
 
-The generated `ApplicationAction` provides:
+The provided `ActiveAct::ApplicationAction` includes:
 
 - `.call(*args, **kwargs, &block)`: Instantiates and runs the action.
 - `#call`: To be implemented in your subclass.
@@ -72,7 +66,7 @@ The generated `ApplicationAction` provides:
 
 ```ruby
 # app/actions/process_payment.rb
-class ProcessPayment < ApplicationAction
+class ProcessPayment < ActiveAct::ApplicationAction
   def initialize(order)
     @order = order
   end
@@ -91,6 +85,29 @@ ProcessPayment.call(order)
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/magdielcardoso/active_act.
+
+## How to contribute
+
+1. Fork the repository: https://github.com/magdielcardoso/active_act
+2. Create a new branch for your feature or fix:
+   ```sh
+   git checkout -b my-feature
+   ```
+3. Make your changes, including tests if applicable.
+4. Run the test suite to ensure everything is working:
+   ```sh
+   bundle install
+   bundle exec rake spec
+   ```
+5. Commit your changes and push your branch:
+   ```sh
+   git add .
+   git commit -m "Describe your change"
+   git push origin my-feature
+   ```
+6. Open a Pull Request on GitHub and describe your contribution.
+
+Thank you for helping to improve ActiveAct!
 
 ## License
 
