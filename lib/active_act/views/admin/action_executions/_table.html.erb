@@ -1,0 +1,30 @@
+<% if executions.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Action</th>
+        <th>Status</th>
+        <th>Início</th>
+        <th>Duração (s)</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% executions.each do |exec| %>
+        <tr>
+          <td><%= exec.id %></td>
+          <td><%= exec.action_name %></td>
+          <td><%= exec.status %></td>
+          <td><%= exec.created_at.strftime('%d/%m/%Y %H:%M:%S') %></td>
+          <td><%= exec.duration %></td>
+          <td><%= link_to 'Detalhes', active_act_admin_action_execution_path(exec) %></td>
+          <td><%= button_to 'Replay', replay_active_act_admin_action_execution_path(exec), method: :post %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>Nenhuma execução encontrada.</p>
+<% end %> 

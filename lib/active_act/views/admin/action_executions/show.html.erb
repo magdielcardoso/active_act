@@ -1,0 +1,15 @@
+<h1>Detalhes da Execução</h1>
+<ul>
+  <li><b>ID:</b> <%= @execution.id %></li>
+  <li><b>Action:</b> <%= @execution.action_name %></li>
+  <li><b>Status:</b> <%= @execution.status %></li>
+  <li><b>Início:</b> <%= @execution.created_at.strftime('%d/%m/%Y %H:%M:%S') %></li>
+  <li><b>Duração (s):</b> <%= @execution.duration %></li>
+  <li><b>Argumentos:</b> <pre><%= @execution.arguments %></pre></li>
+  <li><b>Resultado:</b> <pre><%= @execution.result %></pre></li>
+  <% if @execution.error.present? %>
+    <li><b>Erro:</b> <pre style="color:red"><%= @execution.error %></pre></li>
+  <% end %>
+</ul>
+<%= button_to 'Replay', replay_active_act_admin_action_execution_path(@execution), method: :post %>
+<%= link_to 'Voltar', active_act_admin_action_executions_path %> 
