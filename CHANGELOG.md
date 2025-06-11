@@ -1,4 +1,4 @@
-## [0.1.4] - 2024-06-10
+## [0.1.4] - 2025-06-10
 
 ### Added
 - New custom actions generator
