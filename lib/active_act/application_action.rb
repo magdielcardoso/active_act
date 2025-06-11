@@ -171,6 +171,16 @@ module ActiveAct
                                   (defined?(result) ? result : nil)
                                 end
           Rails.logger.info("[ActiveAct::Audit] #{audit_data.inspect}")
+          # Persistência no banco
+          ActiveAct::ActionExecution.create!(
+            action: audit_data[:action],
+            args: audit_data[:args].inspect,
+            kwargs: audit_data[:kwargs].inspect,
+            result: audit_data[:result].inspect,
+            error: audit_data[:error]&.to_s,
+            duration: audit_data[:duration],
+            created_at: start_time
+          )
         end
       end
     end

@@ -1,5 +1,51 @@
+<style>
+  .aa-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px #0001;
+  }
+  .aa-table th, .aa-table td {
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .aa-table th {
+    background: #f3f4f6;
+    color: #2c3e50;
+    font-weight: 600;
+    border-bottom: 2px solid #e9ecef;
+  }
+  .aa-table tr:nth-child(even) {
+    background: #f8fafc;
+  }
+  .aa-table tr:hover {
+    background: #e9ecef;
+  }
+  .aa-table td {
+    border-bottom: 1px solid #f0f1f3;
+  }
+  .aa-table a, .aa-table button {
+    font-size: 0.97rem;
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: none;
+    background: #2d7be5;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.2s;
+    margin-right: 4px;
+    cursor: pointer;
+  }
+  .aa-table a:hover, .aa-table button:hover {
+    background: #1a5bb8;
+  }
+</style>
+
 <% if executions.any? %>
-  <table>
+  <table class="aa-table">
     <thead>
       <tr>
         <th>ID</th>
@@ -15,12 +61,12 @@
       <% executions.each do |exec| %>
         <tr>
           <td><%= exec.id %></td>
-          <td><%= exec.action_name %></td>
-          <td><%= exec.status %></td>
+          <td><%= exec.action %></td>
+          <td><%= exec.error.present? ? 'Falha' : 'Sucesso' %></td>
           <td><%= exec.created_at.strftime('%d/%m/%Y %H:%M:%S') %></td>
           <td><%= exec.duration %></td>
-          <td><%= link_to 'Detalhes', active_act_admin_action_execution_path(exec) %></td>
-          <td><%= button_to 'Replay', replay_active_act_admin_action_execution_path(exec), method: :post %></td>
+          <td><%= link_to 'Detalhes', admin_action_execution_path(exec) %></td>
+          <td><%= button_to 'Replay', replay_admin_action_execution_path(exec), method: :post %></td>
         </tr>
       <% end %>
     </tbody>

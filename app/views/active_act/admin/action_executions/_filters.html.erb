@@ -1,4 +1,44 @@
-<form method="get" action="">
+<style>
+  .aa-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 32px;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    background: #f3f4f6;
+    padding: 18px 20px 10px 20px;
+    border-radius: 6px;
+  }
+  .aa-filters label {
+    font-weight: 500;
+    color: #34495e;
+    margin-right: 6px;
+  }
+  .aa-filters input,
+  .aa-filters select {
+    padding: 5px 10px;
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-right: 12px;
+    background: #fff;
+  }
+  .aa-filters button {
+    background: #2d7be5;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .aa-filters button:hover {
+    background: #1a5bb8;
+  }
+</style>
+
+<form method="get" action="" class="aa-filters">
   <label>Status:</label>
   <select name="status">
     <option value="">Todos</option>

@@ -1,5 +1,44 @@
-<%= link_to 'Voltar para o app', main_app.root_path %>
-<h1>Execuções de Actions</h1>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+  .aa-container {
+    max-width: 900px;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #0001;
+    padding: 32px 40px 40px 40px;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    letter-spacing: 0.01em;
+  }
+  .aa-back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    background: #e9ecef;
+    color: #2c3e50;
+    padding: 8px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .aa-back-link:hover {
+    background: #d0d7de;
+  }
+</style>
 
-<%= render 'filters' %>
-<%= render 'table', executions: @executions %> 
+<div class="aa-container">
+  <%= link_to 'Voltar para o app', main_app.root_path, class: 'aa-back-link' %>
+  <h1>Execuções de Actions</h1>
+
+  <%= render 'filters' %>
+  <%= render 'table', executions: @executions %>
+</div> 
