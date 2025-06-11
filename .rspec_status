@@ -1,0 +1,4 @@
+example_id                     | status | run_time        |
+------------------------------ | ------ | --------------- |
+./spec/active_act_spec.rb[1:1] | passed | 0.00085 seconds |
+./spec/active_act_spec.rb[1:2] | passed | 0.00108 seconds |

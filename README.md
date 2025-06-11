@@ -102,6 +102,66 @@ The provided `ActiveAct::ApplicationAction` includes:
 - `#call`: To be implemented in your subclass.
 - `#fail(error = nil)`: Raises an error to signal failure.
 
+## Flexible Arguments and Chaining Actions
+
+### Passing Arguments to Actions
+
+You can define your action's `call` method to accept any arguments you need (positional or keyword). For maximum flexibility, use `*args, **kwargs`:
+
+```ruby
+class OrderProcess < ActiveAct::ApplicationAction
+  def call(order, user:)
+    # business logic here
+    { order: order, user: user }
+  end
+end
+
+OrderProcess.call(order, user: user)
+```
+
+### ActionResult: Handling Results
+
+Every call to an action returns an `ActionResult` object, which provides:
+
+- `.value` → the value returned by your action (usually a hash or object)
+- `.error` → nil if successful, or the exception if an error occurred
+- `.success?` → true if no error
+
+Example:
+
+```ruby
+result = OrderProcess.call(order, user: user)
+if result.success?
+  puts result.value # => { order: ..., user: ... }
+else
+  puts "Error: #{result.error}"
+end
+```
+
+### Chaining Actions with `.then`
+
+You can chain actions so that the result of one is passed as the argument to the next:
+
+```ruby
+class NotifyUser < ActiveAct::ApplicationAction
+  def call(result)
+    user = result[:user]
+    # notify user logic
+    { notified: true }
+  end
+end
+
+result = OrderProcess.call(order, user: user).then(NotifyUser)
+if result.success?
+  puts "User notified!"
+else
+  puts "Error: #{result.error}"
+end
+```
+
+- The value returned by the first action is passed as the first argument to the next action's `call` method.
+- You can chain as many actions as you want: `ActionA.call(...).then(ActionB).then(ActionC)`
+
 ## Example
 
 ```ruby

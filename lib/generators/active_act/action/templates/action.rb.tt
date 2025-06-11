@@ -8,6 +8,8 @@ class <%= class_name %> < ActiveAct::ApplicationAction
 
   def call
     # Implement your business logic here
+    # Exemplo de retorno explícito:
+    # ActiveAct::ActionResult.new({ foo: 'bar' })
     raise NotImplementedError, "You must implement the #call method in <%= class_name %>"
   end
 end 
