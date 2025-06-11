@@ -18,6 +18,10 @@ module ActiveAct
         @on_error_callbacks << method_name
       end
 
+      def act_as(type)
+        @act_as_type = type
+      end
+
       def _before_call_callbacks
         superclass.respond_to?(:_before_call_callbacks) ? (superclass._before_call_callbacks + (@before_call_callbacks || [])) : (@before_call_callbacks || [])
       end
@@ -29,28 +33,34 @@ module ActiveAct
       def _on_error_callbacks
         superclass.respond_to?(:_on_error_callbacks) ? (superclass._on_error_callbacks + (@on_error_callbacks || [])) : (@on_error_callbacks || [])
       end
+
+      def _act_as_type
+        @act_as_type || (superclass.respond_to?(:_act_as_type) ? superclass._act_as_type : nil)
+      end
     end
 
-    def self.call(*args, **kwargs, &block)
-      instance = new
-      begin
-        # Call all before_call callbacks
-        _before_call_callbacks.each { |cb| instance.send(cb, *args, **kwargs) }
-        instance.before_call(*args, **kwargs) if instance.respond_to?(:before_call)
-        result = instance.call(*args, **kwargs, &block)
-        # Call all after_call callbacks
-        _after_call_callbacks.each { |cb| instance.send(cb, result) }
-        instance.after_call(result) if instance.respond_to?(:after_call)
-        if result.is_a?(ActiveAct::ActionResult)
-          result
-        else
-          ActiveAct::ActionResult.new(result)
+    def self.call(*args, as_job: true, **kwargs, &block)
+      if _act_as_type == :job && as_job
+        ActiveAct::ActionJob.perform_later(name, args, kwargs)
+        ActiveAct::ActionResult.new({ enqueued: true, action: name, args: args, kwargs: kwargs })
+      else
+        instance = new
+        begin
+          _before_call_callbacks.each { |cb| instance.send(cb, *args, **kwargs) }
+          instance.before_call(*args, **kwargs) if instance.respond_to?(:before_call)
+          result = instance.call(*args, **kwargs, &block)
+          _after_call_callbacks.each { |cb| instance.send(cb, result) }
+          instance.after_call(result) if instance.respond_to?(:after_call)
+          if result.is_a?(ActiveAct::ActionResult)
+            result
+          else
+            ActiveAct::ActionResult.new(result)
+          end
+        rescue StandardError => e
+          _on_error_callbacks.each { |cb| instance.send(cb, e) }
+          instance.on_error(e) if instance.respond_to?(:on_error)
+          ActiveAct::ActionResult.new(nil, error: e)
         end
-      rescue StandardError => e
-        # Call all on_error callbacks
-        _on_error_callbacks.each { |cb| instance.send(cb, e) }
-        instance.on_error(e) if instance.respond_to?(:on_error)
-        ActiveAct::ActionResult.new(nil, error: e)
       end
     end
 
