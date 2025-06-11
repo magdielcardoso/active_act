@@ -1,4 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 12.671L11.5276 4H13V10H17.5V11.3308L12.516 20H11V14H6.5V12.671ZM8.30578 12.5H12.5V17.0319L15.6998 11.5H11.5V7.0242L8.30578 12.5Z" fill="#1F2328"/>
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="512" height="180" viewBox="0 0 512 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo Icon (inspired by the original icon, styled for logo use) -->
+  <rect x="16" y="24" width="96" height="96" rx="28" fill="url(#bg-gradient)"/>
+  <g>
+    <polygon points="40,72 64,48 88,72 64,96" fill="url(#poly-gradient1)"/>
+    <polygon points="64,48 88,72 64,96 40,72" fill="url(#poly-gradient2)" opacity="0.7"/>
+    <polygon points="64,48 80,64 64,80 48,64" fill="url(#poly-gradient3)" opacity="0.8"/>
+    <polygon points="64,80 80,64 88,72 64,96" fill="url(#poly-gradient4)" opacity="0.9"/>
+  </g>
+  <!-- Text "Active Act" in modern, bold, geometric sans-serif style -->
+  <text x="128" y="98" font-family="'Inter', 'Segoe UI', Arial, sans-serif" font-size="72" font-weight="700" fill="url(#text-gradient)" letter-spacing="0.5">
+    Active<tspan font-weight="500">Act</tspan>
+  </text>
+  <defs>
+    <linearGradient id="bg-gradient" x1="16" y1="24" x2="112" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2D2A7B"/>
+      <stop offset="1" stop-color="#1B0F4A"/>
+    </linearGradient>
+    <linearGradient id="poly-gradient1" x1="40" y1="48" x2="88" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A7A6FF"/>
+      <stop offset="1" stop-color="#6F6AFF"/>
+    </linearGradient>
+    <linearGradient id="poly-gradient2" x1="64" y1="48" x2="64" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6F6AFF"/>
+      <stop offset="1" stop-color="#A7A6FF"/>
+    </linearGradient>
+    <linearGradient id="poly-gradient3" x1="48" y1="64" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C3BFFF"/>
+      <stop offset="1" stop-color="#6F6AFF"/>
+    </linearGradient>
+    <linearGradient id="poly-gradient4" x1="64" y1="80" x2="88" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6F6AFF"/>
+      <stop offset="1" stop-color="#A7A6FF"/>
+    </linearGradient>
+    <linearGradient id="text-gradient" x1="128" y1="60" x2="420" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6F6AFF"/>
+      <stop offset="1" stop-color="#3B2FCF"/>
+    </linearGradient>
+  </defs>
 </svg>

@@ -1,3 +1,5 @@
+![ActiveAct Logo](.github/images/icon.svg)
+
 # ActiveAct
 
 ActiveAct is a Rails Engine that introduces a standardized Action layer for your Rails applications. It provides a base class and generators to help you organize business logic in a clean, reusable way.
@@ -52,6 +54,36 @@ You can call your action from anywhere in your app:
 
 ```ruby
 SendWelcomeEmail.call(user)
+```
+
+### Generating an Action with the Generator
+
+You can use the built-in generator to quickly scaffold a new action:
+
+```sh
+rails generate active_act:action ActionName
+```
+
+**Example:**
+
+```sh
+rails generate active_act:action SendWelcomeEmail
+```
+
+This will create the file `app/actions/send_welcome_email.rb` with the following content:
+
+```ruby
+class SendWelcomeEmail < ActiveAct::ApplicationAction
+  # Uncomment and customize the initializer if needed
+  # def initialize(args)
+  #   @args = args
+  # end
+
+  def call
+    # Implement your business logic here
+    raise NotImplementedError, "You must implement the #call method in SendWelcomeEmail"
+  end
+end
 ```
 
 ## Base Action API
