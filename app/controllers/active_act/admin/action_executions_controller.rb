@@ -8,17 +8,17 @@ module ActiveAct
 
       # Listagem de execuções, com filtros
       def index
-        @executions = ActionExecution.order(created_at: :desc).limit(50)
+        @executions = ActiveAct::ActionExecution.order(created_at: :desc).limit(50)
       end
 
       # Detalhe de uma execução
       def show
-        @execution = ActionExecution.find(params[:id])
+        @execution = ActiveAct::ActionExecution.find(params[:id])
       end
 
       # Replay de uma execução
       def replay
-        @execution = ActionExecution.find(params[:id])
+        @execution = ActiveAct::ActionExecution.find(params[:id])
         # Lógica de replay a ser implementada
         redirect_to active_act_admin_action_execution_path(@execution), notice: "Replay iniciado."
       end
