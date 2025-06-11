@@ -289,6 +289,56 @@ MyPipeline.call(order_params)
 
 Pipelines make it easy to build robust, readable business flows.
 
+## Advanced Macros
+
+ActiveAct provides powerful macros to make your actions safer, more maintainable, and Rails-like:
+
+- **auditable!** — Logs execution, arguments, result, error, and duration automatically.
+- **require_user [:role]** — Requires a user (and optionally a specific role) to execute the action.
+- **param :name, type:, required:** — Declares and validates required and typed parameters.
+- **schedule every: ...** — Schedules the action to run periodically via ActiveJob.
+
+See the dedicated docs for details:
+
+- [Auditing](AUDITING.md)
+- [Authorization](AUTHORIZATION.md)
+- [Parameter Validation](PARAMS.md)
+- [Scheduling](SCHEDULING.md)
+
+**Example:**
+```ruby
+class UpcasePostTitle < ActiveAct::ApplicationAction
+  auditable!
+  param :post, type: Post, required: true
+  require_user :admin
+  schedule every: 1.day
+
+  before_call :log_start
+  after_call  :log_finish
+  on_error    :notify_error
+
+  def call(post, current_user:)
+    post.title = post.title.upcase
+    post.save!
+    post
+  end
+
+  private
+
+  def log_start(post, current_user:)
+    puts "About to upcase the title for post: #{post.id} (#{post.title}), by user: #{current_user.id}"
+  end
+
+  def log_finish(result)
+    puts "Finished upcasing. New title: #{result.title}"
+  end
+
+  def notify_error(error)
+    puts "Error while upcasing post title: #{error.message}"
+  end
+end
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/magdielcardoso/active_act.
