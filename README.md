@@ -258,6 +258,28 @@ end
 UpcasePostTitle.call(post) # Enqueues the job
 ```
 
+## Composing Actions with Pipelines
+
+You can compose multiple actions into a pipeline for complex workflows. Each step is an action, and you can define handlers for success and failure:
+
+```ruby
+class MyPipeline < ActiveAct::Pipeline
+  step ValidateInput
+  step ProcessOrder
+  on_success NotifySuccess
+  on_failure NotifyFailure
+end
+
+# Usage:
+MyPipeline.call(order_params)
+```
+
+- Each `step` is an action; the result of each is passed to the next.
+- If all steps succeed, `on_success` is called with the final result.
+- If any step fails, `on_failure` is called with the error.
+
+Pipelines make it easy to build robust, readable business flows.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/magdielcardoso/active_act.
