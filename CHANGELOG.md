@@ -1,5 +1,12 @@
-## [Unreleased]
+## [0.1.4] - 2024-06-10
 
-## [0.1.0] - 2025-06-10
+### Added
+- New custom actions generator
+- Callback support in ApplicationAction
+- Enhanced documentation in README
 
-- Initial release
+### Fixed
+- Fixed bug in actions initialization without arguments
+
+### Changed
+- Internal refactoring for better performance
