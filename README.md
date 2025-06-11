@@ -162,6 +162,49 @@ end
 - The value returned by the first action is passed as the first argument to the next action's `call` method.
 - You can chain as many actions as you want: `ActionA.call(...).then(ActionB).then(ActionC)`
 
+## Callbacks for Actions
+
+You can add callbacks to your actions using Rails-like macros:
+
+- `before_call :method_name` — runs before the main `call` method
+- `after_call :method_name` — runs after a successful `call`, receives the result
+- `on_error :method_name` — runs if any error occurs, receives the exception
+
+You can register multiple callbacks for each type. The methods can be private or public.
+
+**Example:**
+
+```ruby
+class UpcasePostTitle < ActiveAct::ApplicationAction
+  before_call :log_start
+  after_call  :log_finish
+  on_error    :notify_error
+
+  def call(post)
+    post.title = post.title.upcase
+    post
+  end
+
+  private
+
+  def log_start(post)
+    puts "About to upcase the title for post: #{post.id} (#{post.title})"
+  end
+
+  def log_finish(result)
+    puts "Finished upcasing. New title: #{result.title}"
+  end
+
+  def notify_error(error)
+    puts "Error while upcasing post title: #{error.message}"
+  end
+end
+```
+
+- All callbacks are optional.
+- You can still use instance methods named `before_call`, `after_call`, or `on_error` for compatibility.
+- Callbacks are executed in the order they are declared.
+
 ## Example
 
 ```ruby

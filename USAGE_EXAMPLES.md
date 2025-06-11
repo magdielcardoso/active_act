@@ -182,4 +182,46 @@ end
 
 result = KeywordOnly.call(foo: 2, bar: 3)
 puts result.value # => 5
+```
+
+---
+
+## 11. Using Callbacks (before_call, after_call, on_error)
+
+You can add callbacks to your actions using Rails-like macros. This allows you to run code before, after, or on error during the action execution.
+
+```ruby
+class UpcasePostTitle < ActiveAct::ApplicationAction
+  before_call :log_start
+  after_call  :log_finish
+  on_error    :notify_error
+
+  def call(post)
+    post.title = post.title.upcase
+    post
+  end
+
+  private
+
+  def log_start(post)
+    puts "About to upcase the title for post: #{post.id} (#{post.title})"
+  end
+
+  def log_finish(result)
+    puts "Finished upcasing. New title: #{result.title}"
+  end
+
+  def notify_error(error)
+    puts "Error while upcasing post title: #{error.message}"
+  end
+end
+
+# Usage:
+post = Post.new(id: 1, title: "hello world")
+result = UpcasePostTitle.call(post)
+# Output:
+# About to upcase the title for post: 1 (hello world)
+# Finished upcasing. New title: HELLO WORLD
+
+# If an error occurs in call, notify_error will be called with the exception.
 ``` 
