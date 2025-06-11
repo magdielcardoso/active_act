@@ -20,7 +20,7 @@ module ActiveAct
       def replay
         @execution = ActiveAct::ActionExecution.find(params[:id])
         # Lógica de replay a ser implementada
-        redirect_to active_act_admin_action_execution_path(@execution), notice: "Replay iniciado."
+        redirect_to admin_action_execution_path(@execution), notice: "Replay iniciado."
       end
 
       private
