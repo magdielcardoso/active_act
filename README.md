@@ -8,6 +8,15 @@
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/></a>
 </p>
 
+<p align="center">
+  <b>
+    <a href="RETRY.md">Retry</a> |
+    <a href="PIPELINE.md">Pipeline</a> |
+    <a href="USAGE_EXAMPLES.md">Usage Examples</a> |
+    <a href="ACTION_JOBS.md">Action Jobs</a>
+  </b>
+</p>
+
 # ActiveAct
 
 ActiveAct is a Rails Engine that introduces a standardized Action layer for your Rails applications. It provides a base class and generators to help you organize business logic in a clean, reusable way.
