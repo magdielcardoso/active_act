@@ -27,34 +27,74 @@
   </div>
   <nav>
     <div class="aa-sidebar-nav">
-      <div class="sidebar-group-label" style="color: #8a8ca3; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; margin: 18px 0 6px 0; text-transform: uppercase;">
-        GENERAL
-      </div>
-      <%= link_to '#', class: 'sidebar-link' do %>
-        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/><rect x="7" y="7" width="8" height="8" rx="2" fill="currentColor"/></svg>
+      <div class="sidebar-group-label" style="color: #8a8ca3; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; margin: 18px 0 6px 0; text-transform: uppercase;">GENERAL</div>
+      <%= link_to '#', class: ["sidebar-link", (request.path == "/active_act/action_executions" ? "active" : nil)].compact.join(' ') do %>
+        <!-- Gauge/Dashboard icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M10 10V6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         Dashboard
       <% end %>
-      <div class="sidebar-group-label" style="color: #8a8ca3; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; margin: 18px 0 6px 0; text-transform: uppercase;">
-        MANAGEMENT
-      </div>
+
+      <div class="sidebar-group-label" style="color: #8a8ca3; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; margin: 18px 0 6px 0; text-transform: uppercase;">ACTIONS</div>
       <%= link_to '#', class: 'sidebar-link' do %>
-        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="11,3 13,8 19,8 15,12 17,19 11,15 5,19 7,12 3,8 9,8" fill="currentColor"/></svg>
+        <!-- Bolt icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2v7H5l5 9v-7h5l-5-9z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Actions
       <% end %>
       <%= link_to '#', class: 'sidebar-link' do %>
-        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="14" height="2.5" rx="1.2" fill="currentColor"/><rect x="4" y="9.5" width="14" height="2.5" rx="1.2" fill="currentColor"/><rect x="4" y="14" width="9" height="2.5" rx="1.2" fill="currentColor"/></svg>
-        Executions
+        <!-- Pipeline/flow icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="8" width="4" height="4" rx="1.2" stroke="currentColor" stroke-width="1.4"/><rect x="13" y="8" width="4" height="4" rx="1.2" stroke="currentColor" stroke-width="1.4"/><path d="M7 10h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Pipelines
       <% end %>
-      <div class="sidebar-group-label" style="color: #8a8ca3; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; margin: 18px 0 6px 0; text-transform: uppercase;">
-        SETTINGS
-      </div>
       <%= link_to '#', class: 'sidebar-link' do %>
-        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/><circle cx="11" cy="11" r="2.5" fill="currentColor"/><path d="M11 3v2.5M11 16.5V19M3 11h2.5M16.5 11H19M5.64 5.64l1.77 1.77M14.59 14.59l1.77 1.77M5.64 16.36l1.77-1.77M14.59 7.41l1.77-1.77" stroke="currentColor" stroke-width="1.2"/></svg>
-        Settings
+        <!-- Clock icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Jobs
+      <% end %>
+
+      <div class="sidebar-group-label" style="color: #8a8ca3; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; margin: 18px 0 6px 0; text-transform: uppercase;">TOOLS</div>
+      <%= link_to '#', class: 'sidebar-link' do %>
+        <!-- Shield icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3l6 2v4c0 5-3.5 8-6 8s-6-3-6-8V5l6-2z" stroke="currentColor" stroke-width="1.6"/></svg>
+        Auditing
+      <% end %>
+      <%= link_to '#', class: 'sidebar-link' do %>
+        <!-- Key icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M11 12h5m-2-2v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Authorization
+      <% end %>
+      <%= link_to '#', class: 'sidebar-link' do %>
+        <!-- Check icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 10.5l2 2 3-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Parameter Validation
+      <% end %>
+      <%= link_to '#', class: 'sidebar-link' do %>
+        <!-- Calendar icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h14" stroke="currentColor" stroke-width="1.6"/><path d="M7 3v2M13 3v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Scheduling
+      <% end %>
+
+      <div class="sidebar-group-label" style="color: #8a8ca3; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; margin: 18px 0 6px 0; text-transform: uppercase;">RESOURCES</div>
+      <%= link_to '#', class: 'sidebar-link' do %>
+        <!-- Book icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4V4z" stroke="currentColor" stroke-width="1.6"/><path d="M4 16h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Usage Examples
+      <% end %>
+      <%= link_to '#', class: 'sidebar-link' do %>
+        <!-- File-text icon -->
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="3" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Documentation
       <% end %>
     </div>
   </nav>
-  <div style="margin-top: auto; width: 100%; padding: 24px 0 12px 32px; color: #b3b3c6; font-size: 0.85rem; letter-spacing: 0.04em;">
-    v<%= ActiveAct::VERSION %>
+  <div style="margin-top: auto; width: 100%; padding: 24px 24px 12px 32px; color: #b3b3c6; font-size: 0.85rem; letter-spacing: 0.04em; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+    <span>v<%= ActiveAct::VERSION %></span>
+    <span style="display: flex; gap: 10px;">
+      <a href="https://github.com/active-act/active_act" target="_blank" rel="noopener" style="color: #b3b3c6; display: flex; align-items: center;">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.48 2.87 8.28 6.84 9.63.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.1-1.5-1.1-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05A9.38 9.38 0 0 1 12 6.84c.85.004 1.71.12 2.51.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12.26C22 6.58 17.52 2 12 2Z"/></svg>
+      </a>
+      <a href="https://rubygems.org/gems/active_act" target="_blank" rel="noopener" style="color: #b3b3c6; display: flex; align-items: center;">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="7" fill="currentColor" opacity=".2"/><path fill="currentColor" d="M12 5C7.03 5 3 8.13 3 12c0 3.87 4.03 7 9 7s9-3.13 9-7c0-3.87-4.03-7-9-7Zm0 12c-4.42 0-8-2.69-8-6s3.58-6 8-6 8 2.69 8 6-3.58 6-8 6Zm-1-9v4l3.5 2.08.5-.86-3-1.78V8h-1Z"/></svg>
+      </a>
+    </span>
   </div>
 </aside>
