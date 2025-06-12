@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>ActiveAct Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: #f7f8fa;
+      color: #23244a;
+      min-height: 100vh;
+    }
+    .aa-admin-layout {
+      display: flex;
+      min-height: 100vh;
+      background: #f7f8fa;
+    }
+    .aa-sidebar {
+      width: 260px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      border-right: 1px solid #e5e7eb;
+      border-radius: 0 16px 16px 0;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      height: 100vh;
+      z-index: 100;
+      transition: transform 0.3s;
+    }
+    .aa-sidebar.closed {
+      transform: translateX(-100%);
+    }
+    .aa-sidebar-logo {
+      width: 220px;
+      margin: 32px auto 32px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .aa-sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      padding: 0 0 0 32px;
+    }
+    .aa-sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #23244a;
+      text-decoration: none;
+      font-size: 1.08rem;
+      padding: 10px 0;
+      border-radius: 12px;
+      border: none;
+      background: none;
+      transition: color 0.2s;
+      font-weight: 500;
+    }
+    .aa-sidebar-nav a.active, .aa-sidebar-nav a:hover {
+      color: #3b2fcf;
+      background: none;
+    }
+    .aa-sidebar-nav svg {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      color: #b3b3c6;
+      transition: color 0.2s;
+    }
+    .aa-sidebar-nav a.active svg, .aa-sidebar-nav a:hover svg {
+      color: #3b2fcf;
+    }
+    .aa-sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 200;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: none;
+    }
+    @media (max-width: 900px) {
+      .aa-admin-layout { flex-direction: column; }
+      .aa-sidebar {
+        position: fixed;
+        left: 0; top: 0; bottom: 0;
+        height: 100vh;
+        z-index: 100;
+        transform: translateX(-100%);
+      }
+      .aa-sidebar.open {
+        transform: translateX(0);
+      }
+      .aa-sidebar-toggle {
+        display: block;
+      }
+      .aa-main {
+        margin-left: 0 !important;
+      }
+    }
+    .aa-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin-left: 260px;
+      transition: margin-left 0.3s;
+    }
+    @media (max-width: 900px) {
+      .aa-main { margin-left: 0; }
+    }
+    .aa-topbar {
+      background: #fff;
+      padding: 18px 40px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #3b2fcf;
+      border-bottom: 1px solid #e5e7eb;
+      border-radius: 0 0 16px 0;
+    }
+    .aa-content {
+      flex: 1;
+      padding: 0;
+      background: #fff;
+      border-radius: 0 0 16px 0;
+      min-height: 80vh;
+    }
+  </style>
+  <script>
+    function toggleSidebar() {
+      var sidebar = document.getElementById('aaSidebar');
+      sidebar.classList.toggle('open');
+    }
+  </script>
+</head>
+<body>
+  <button class="aa-sidebar-toggle" onclick="toggleSidebar()" aria-label="Abrir navegação">☰</button>
+  <div class="aa-admin-layout">
+    <%= render 'active_act/sidebar' %>
+    <main class="aa-main">
+      <div class="aa-topbar">
+        <%= content_for?(:page_title) ? yield(:page_title) : 'Administração' %>
+      </div>
+      <div class="aa-content">
+        <%= yield %>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

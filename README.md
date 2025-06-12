@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/images/icon.svg" alt="ActiveAct Logo" width="350"/>
+  <img src=".github/images/logo.svg" alt="ActiveAct Logo" width="350"/>
 </p>
 
 <p align="center">

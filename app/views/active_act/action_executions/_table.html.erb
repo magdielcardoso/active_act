@@ -65,8 +65,8 @@
           <td><%= exec.error.present? ? 'Falha' : 'Sucesso' %></td>
           <td><%= exec.created_at.strftime('%d/%m/%Y %H:%M:%S') %></td>
           <td><%= exec.duration %></td>
-          <td><%= link_to 'Detalhes', admin_action_execution_path(exec) %></td>
-          <td><%= button_to 'Replay', replay_admin_action_execution_path(exec), method: :post %></td>
+          <td><%= link_to 'Detalhes', action_execution_path(exec) %></td>
+          <td><%= button_to 'Replay', replay_action_execution_path(exec), method: :post %></td>
         </tr>
       <% end %>
     </tbody>

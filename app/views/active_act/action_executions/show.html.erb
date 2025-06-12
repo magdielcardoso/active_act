@@ -1,0 +1,92 @@
+<style>
+  .aa-details-container {
+    max-width: 700px;
+    margin: 36px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #0001;
+    padding: 32px 40px 40px 40px;
+  }
+  .aa-details-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    letter-spacing: 0.01em;
+  }
+  .aa-details-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+  .aa-details-list li {
+    margin-bottom: 0.7rem;
+    font-size: 1.08rem;
+    background: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px 18px;
+    border-left: 4px solid #2d7be5;
+  }
+  .aa-details-list b {
+    color: #34495e;
+    margin-right: 8px;
+  }
+  .aa-details-list pre {
+    background: #f3f4f6;
+    border-radius: 4px;
+    padding: 7px 12px;
+    margin: 0;
+    font-size: 0.98rem;
+    color: #2c3e50;
+  }
+  .aa-details-list .aa-error {
+    color: #c0392b;
+    background: #fff0f0;
+    border-left: 4px solid #c0392b;
+  }
+  .aa-details-actions {
+    display: flex;
+    gap: 18px;
+    margin-top: 1.5rem;
+  }
+  .aa-details-actions form,
+  .aa-details-actions a {
+    display: inline-block;
+  }
+  .aa-details-actions button,
+  .aa-details-actions a {
+    background: #2d7be5;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 24px;
+    font-weight: 500;
+    font-size: 1.08rem;
+    text-decoration: none;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .aa-details-actions button:hover,
+  .aa-details-actions a:hover {
+    background: #1a5bb8;
+  }
+</style>
+
+<div class="aa-details-container">
+  <h1 class="aa-details-title">Detalhes da Execução</h1>
+  <ul class="aa-details-list">
+    <li><b>ID:</b> <%= @execution.id %></li>
+    <li><b>Action:</b> <%= @execution.action %></li>
+    <li><b>Status:</b> <%= @execution.error.present? ? "Falha" : "Sucesso" %></li>
+    <li><b>Início:</b> <%= @execution.created_at.strftime('%d/%m/%Y %H:%M:%S') %></li>
+    <li><b>Duração (s):</b> <%= @execution.duration %></li>
+    <li><b>Argumentos:</b> <pre><%= @execution.args %></pre></li>
+    <li><b>Resultado:</b> <pre><%= @execution.result %></pre></li>
+    <% if @execution.error.present? %>
+      <li class="aa-error"><b>Erro:</b> <pre><%= @execution.error %></pre></li>
+    <% end %>
+  </ul>
+  <div class="aa-details-actions">
+    <%= button_to 'Replay', replay_action_execution_path(@execution), method: :post %>
+    <%= link_to 'Voltar', action_executions_path %>
+  </div>
+</div> 
